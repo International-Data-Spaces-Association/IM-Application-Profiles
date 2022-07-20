@@ -1,0 +1,191 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shapes: <https://github.com/International-Data-Spaces-Association/InformationModel/tree/master/testing/> .
+
+shapes:
+	a owl:Ontology ;
+	sh:declare [
+		sh:prefix "rdf" ;
+		sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+	] ;
+
+	sh:declare [
+		sh:prefix "ids" ;
+		sh:namespace "https://w3id.org/idsa/core/"^^xsd:anyURI ;
+	] .
+
+
+shapes:ParticipantShape
+	a sh:NodeShape ;
+	sh:targetClass ids:Participant ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path org:hasPrimarySite ;
+		sh:class org:Site ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An ids:Participant must not have more than one org:Site linked through the org:hasPrimarySite property"@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:mbox ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): A foaf:mbox property must point from an ids:Participant to xsd:string. "@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:homepage ;
+		sh:datatype xsd:anyURI ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): A foaf:homepage property must not have more than one point from an ids:Participant to a homepage IRI."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:memberParticipant ;
+		sh:class ids:Participant ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An ids:memberParticipant property must point from an ids:Participant to an ids:Participant."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:participantCertification ;
+		sh:class ids:ParticipantCertification ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An ids:participantCertification property must not have more than one point from an ids:Participant to an ids:ParticipantCertification."@en ;
+	];
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:businessIdentifier ;
+		sh:class ids:BusinessIdentifier ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An ids:businessIdentifier property must point from an ids:Participant to an ids:BusinessIdentifier."@en ;
+	];
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:vatID ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		#TODO for major release: Enforce property
+		#sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An idsParticipant must have exactly one VAT number as xsd:string linked through the ids:vatID property."@en ;
+	];
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:jurisdiction ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		#TODO for major release: Enforce property
+		#sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An idsParticipant must have exactly one jurisdiction as xsd:string linked through the ids:jurisdiction property."@en ;
+	];
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:legalForm ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An idsParticipant must have zero or one legal form as xsd:string linked through the ids:legalForm property."@en ;
+	];
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:memberPerson ;
+		sh:class foaf:Person ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): An ids:memberPerson property must point from an ids:Participant to an foaf:Person."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:participantRefinement ;
+		sh:class odrl:Constraint ;
+		sh:severity sh:Violation ;
+		sh:maxCount 1 ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (ParticipantShape): At maximum one ids:participantRefinement property must not have more than one point from an ids:Participant to an odrl:Constraint or odrl:LogicalConstraint."@en ;
+	] ;
+.
+
+
+shapes:PersonShape
+	a sh:NodeShape ;
+	sh:targetClass foaf:Person ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:familyName ;
+		sh:datatype xsd:string ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (PersonShape): A foaf:familyName property must not have more than one point from an foaf:Person to an xsd:string."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:givenName ;
+		sh:datatype xsd:string ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (PersonShape): A foaf:givenName property must not have more than one point from an foaf:Person to an xsd:string."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:phone ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (PersonShape): A foaf:phone property must point from an foaf:Person to an xsd:string."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:mbox ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (PersonShape): A foaf:mbox property must point from an foaf:Person to an xsd:string."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path foaf:homepage ;
+    sh:datatype xsd:anyURI ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (PersonShape): An foaf:homepage property must not have more than one point from an foaf:Person to an xsd:string."@en ;
+	] .
+
+
+shapes:SiteShape
+	a sh:NodeShape ;
+	sh:targetClass org:Site ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:siteAddress ;
+		sh:datatype xsd:string ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/participant/ParticipantShape.ttl> (SiteShape): An ids:siteAddress property must not have more than one point from an org:Site to an xsd:string."@en ;
+	] .

@@ -1,0 +1,174 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shapes: <https://github.com/International-Data-Spaces-Association/InformationModel/tree/master/testing/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+shapes:
+	a owl:Ontology ;
+	sh:declare [
+		sh:prefix "rdf" ;
+		sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+	] ;
+
+	sh:declare [
+		sh:prefix "ids" ;
+		sh:namespace "https://w3id.org/idsa/core/"^^xsd:anyURI ;
+	] .
+
+
+shapes:DigitalContentShape
+	a sh:NodeShape ;
+	sh:targetClass ids:DigitalContent ;
+
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:DigitalContent is a abstract class. Please use one of the subclasses for the generation of instances."@en ;
+		sh:prefixes shapes: ;
+		sh:select """
+			SELECT ?this ?type
+			WHERE {
+				?this rdf:type ?type .
+				FILTER (?type = ids:DigitalContent)
+			}
+		""" ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:contentType ;
+		sh:class dct:DCMIType ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:contentType property must not have more than one point from an ids:DigitalContent to an dct:DCMIType."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:contentPart ;
+		sh:class ids:DigitalContent ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:contentPart property must point from an ids:DigitalContent to an ids:DigitalContent."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:representation ;
+		sh:class dcat:Distribution ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:representation property must point from an ids:DigitalContent to an dcat:Distribution."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:defaultRepresentation ;
+		sh:class dcat:Distribution ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:defaultRepresentation property must point from an ids:DigitalContent to an dcat:Distribution."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:language ;
+		sh:class ids:Language ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dct:language property must point from an ids:DigitalContent to an ids:Language."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dcat:theme ;
+		sh:nodeKind sh:IRI ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dcat:theme property must point from an ids:DigitalContent to an skos:Concept."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:licence ;
+		sh:nodeKind sh:IRI ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dct:licence property must not have more than one point from an ids:Resource to an xsd:anyURI."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dcat:keyword ;
+		sh:or (
+            [
+                sh:datatype xsd:string ;
+			]
+			[
+                sh:datatype rdf:langString ;
+            ]
+    );
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dcat:keyword property must point from an ids:DigitalContent to a xsd:string or rdf:langString (which additionally contains a language tag)."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:temporal ;
+		sh:class time:TemporalEntity ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dct:temporal property must point from an ids:DigitalContent to a time:TemporalEntity."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dcat:temporalResolution ;
+		sh:datatype xsd:duration ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dcat:temporalResolution property must not have more than one point from an ids:DigitalContent to an xsd:duration."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:spatial ;
+		sh:class ids:Location ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dct:spatial property must point from an ids:DigitalContent to an ids:Location."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:accrualPeriodicity;
+		sh:class ids:Frequency ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): A dct:accrualPeriodicityproperty must not have more than one point from an ids:DigitalContent to an ids:Frequency."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:issued ;
+		sh:datatype  xsd:dateTimeStamp ;
+    sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:DigitalContentShape must have at most one dct:issued attribute pointing to a valid xsd:dateTimeStamp or xsd:date."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path dct:modified ;
+    sh:maxCount 1 ;
+		sh:datatype  xsd:dateTimeStamp ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:DigitalContentShape must have at most one dct:modified attribute pointing to a valid xsd:dateTimeStamp or xsd:date."@en ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:contentStandard ;
+		sh:nodeKind sh:IRI ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "<https://raw.githubusercontent.com/International-Data-Spaces-Association/InformationModel/master/testing/content/DigitalContentShape.ttl> (DigitalContentShape): An ids:contentStandard property must not have more than one point from an ids:DigitalContent to an IRI."@en ;
+	] .

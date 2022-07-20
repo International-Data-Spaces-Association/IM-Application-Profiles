@@ -1,0 +1,14 @@
+.idea
+.vscode
+.instances.ttl
+.manual.ttl
+.schema.ttl
+log
+results
+artifacts
+*.log
+/IDSInformationModelAll.ttl
+/catalog-v001.xml
+*.project
+references/.DS_Store
+.DS_Store
