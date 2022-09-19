@@ -1,0 +1,407 @@
+# baseURI: http://fit.fraunhofer.de/ap15/constraints
+# imports: http://datashapes.org/dash
+# imports: http://purl.org/dc/elements/1.1/
+# imports: http://purl.org/dc/terms/
+# prefix: ap15
+
+#Basic IDS validation, using validations specificed in the main brach of the IDS Infomodel (before refactor to reference external specifications) https://github.com/International-Data-Spaces-Association/InformationModel/tree/main/testing
+
+@prefix ap15: <http://fit.fraunhofer.de/ap15/constraints#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ids: <https://w3id.org/idsa/core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix p1: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://fit.fraunhofer.de/ap15/constraints>
+  a owl:Ontology ;
+  owl:imports <http://datashapes.org/dash> ;
+  owl:imports <http://purl.org/dc/elements/1.1/> ;
+  owl:imports <http://purl.org/dc/terms/> ;
+  owl:versionInfo "Created with TopBraid Composer" ;
+  sh:declare ids:PrefixDeclaration ;
+.
+ap15:ConnectorEndpointShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+sh:targetClass ids:ConnectorEndpoint ;
+  rdfs:label "Connector endpoint shape" ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:accessURL ;
+      sh:nodeKind sh:IRI ;
+      sh:minCount 1 ;
+      sh:maxCount 1;
+      sh:name "access URL" ;
+    ] ;
+sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:endpointArtifact ;
+		sh:class ids:Artifact ;
+		sh:maxCount 1 ;
+	] ;
+.
+
+ap15:ArtifactShape
+	a sh:NodeShape ;
+	sh:targetClass ids:Artifact ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:byteSize ;
+		sh:datatype xsd:integer ;
+        sh:minInclusive 0 ;
+		sh:maxCount 1 ;
+	] ;
+
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:fileName ;
+		sh:datatype xsd:string ;
+		sh:maxCount 1 ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:creationDate ;
+		sh:datatype xsd:dateTimeStamp ;
+		sh:maxCount 1 ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:artifactParameterization ;
+		sh:class ids:ParameterAssignment ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:checkSum ;
+		sh:datatype xsd:string ;
+		sh:maxCount 1 ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:duration ;
+		sh:datatype xsd:decimal ;
+		sh:maxCount 1 ;
+	] .
+
+
+ap15:ResourceShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+  rdfs:label "Resource shape" ;
+  sh:targetClass ids:Resource;
+  sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:description ;
+		sh:or (
+            [
+                sh:datatype xsd:string ;
+			]
+			[
+                sh:datatype rdf:langString ;
+            ]
+            );
+	] ;
+sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:title ;
+    sh:or (
+            [
+                sh:datatype xsd:string ;
+			]
+			[
+                sh:datatype rdf:langString ;
+            ]
+            );
+	] ;
+
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:created ;
+      sh:datatype xsd:dateTime ;
+      sh:maxCount 1 ;
+      sh:name "created" ;
+    ] ;
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:keyword ;
+		sh:or (
+            [
+                sh:datatype xsd:string ;
+			]
+			[
+                sh:datatype rdf:langString ;
+            ]
+    );
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:modified ;
+      sh:datatype xsd:dateTime ;
+      sh:maxCount 1 ;
+      sh:name "modified" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:publisher ;
+      sh:nodeKind sh:IRI ;
+      sh:maxCount 1 ;
+      sh:name "publisher" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:resourceEndpoint ;
+      sh:name "resource endpoint" ;
+      sh:node ap15:ConnectorEndpointShape ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:resourcePart ;
+      sh:class ids:Resource ;
+      sh:name "resource part" ;
+      sh:node ap15:ResourceShape ;
+    ] ;
+  sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:resourceInterface ;
+		sh:class ids:Interface ;
+	] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:sovereign ;
+      sh:nodeKind sh:IRI ;
+      sh:maxCount 1 ;
+      sh:name "sovereign" ;
+    ] ;
+   sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:contractOffer ;
+		sh:node ap15:ContractOfferShape ;
+	] ;
+    sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:sample ;
+		sh:class ids:Resource ;
+	] ;
+    sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:variant ;
+		sh:class ids:Resource ;
+		sh:maxCount 1 ;
+	];
+.
+
+ap15:ContractOfferShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+  sh:targetClass ids:ContractOffer;
+  rdfs:label "Contract offer shape" ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:contractDocument ;
+      sh:class ids:TextResource ;
+      sh:name "contract document" ;
+      sh:maxCount 1 ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:contractEnd ;
+      sh:datatype xsd:dateTime ;
+      sh:maxCount 1 ;
+      sh:name "contract end" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:contractStart ;
+      sh:datatype xsd:dateTime ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:name "contract start" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:permission ;
+      sh:class ids:Permission ;
+      sh:name "permission" ;
+      sh:node ap15:PermissionShape ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:provider ;
+      sh:nodeKind sh:IRI ;
+      sh:pattern "^(?:(http(s)?|idscp|(s)?ftp))";
+      sh:maxCount 1 ;
+      sh:name "provider" ;
+    ] ;
+.
+ap15:InstantShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+  sh:targetClass ids:Instant;
+  rdfs:label "Instant shape" ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:dateTime ;
+      sh:datatype xsd:dateTime ;
+      sh:maxCount 1 ;
+      sh:minCount 1 ;
+      sh:name "date time" ;
+    ] ;
+.
+ap15:PermissionShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+  sh:targetClass ids:Permission;
+  rdfs:label "Permission shape" ;
+  sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:preDuty ;
+		sh:class ids:Duty ;
+	] ;
+
+	sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:postDuty ;
+		sh:class ids:Duty ;
+	] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:action ;
+      sh:minCount 1 ;
+      sh:name "action" ;
+    ] ;
+    sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:assignee ;
+		sh:or (
+      [ sh:nodeKind sh:IRI ; ]
+			[ sh:class ids:Participant ; ]
+    );
+		sh:minCount 0 ;
+	] ;
+sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:assigner ;
+		sh:or (
+      [ sh:nodeKind sh:IRI ; ]
+			[ sh:class ids:Participant ; ]
+    );
+		sh:minCount 0 ;
+	] ;
+sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:target ;
+		sh:or (
+      [ sh:nodeKind sh:IRI ; ]
+			[ sh:class ids:Asset ; ]
+    );
+		sh:maxCount 1 ;
+	] ;
+sh:property [
+		a sh:PropertyShape ;
+		sh:path ids:assetRefinement ;
+		sh:class ids:AbstractConstraint ;
+		sh:maxCount 1 ;
+	] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:constraint ;
+      sh:class ids:AbstractConstraint ;
+      sh:name "constraint" ;
+    ] ;
+.
+ap15:RepresentationShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+  sh:targetClass ids:TextRepresentation;
+  rdfs:label "Representation shape" ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:accrualPeriodicity ;
+      sh:class ids:Frequency ;
+      sh:maxCount 1 ;
+      sh:name "accrual periodicity" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:dataTypeSchema ;
+      sh:class ids:Resource ;
+      sh:maxCount 1 ;
+      sh:name "data type schema" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:mediaType ;
+      sh:or (
+            [
+                sh:class ids:MediaType ;
+			]
+			[
+                sh:class ids:IANAMediaType ;
+            ]
+            );
+      sh:maxCount 1 ;
+      sh:name "media type" ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:temporalCoverage ;
+      sh:class ids:TemporalEntity ;
+      sh:name "temporal coverage" ;
+      sh:node ap15:TemporalCoverageShape ;
+    ] ;
+.
+
+ap15:TemporalCoverageShape
+  a rdfs:Class ;
+  a sh:NodeShape ;
+  sh:targetClass ids:Interval;
+  rdfs:label "Temporal coverage shape" ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:begin ;
+      sh:class ids:Instant;
+      sh:maxCount 1 ;
+      sh:minCount 1 ;
+      sh:name "begin" ;
+      sh:node ap15:InstantShape ;
+    ] ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path ids:end ;
+      sh:class ids:Instant ;
+      sh:maxCount 1 ;
+      sh:name "end" ;
+      sh:node ap15:InstantShape ;
+    ] ;
+.
+ap15:TextResourceShape
+    a sh:NodeShape;
+    sh:targetClass ids:TextResource;
+    sh:property [
+                    a sh:PropertyShape ;
+                    sh:path ids:representation ;
+                    sh:class ids:TextRepresentation ;
+                ] ;
+
+    sh:property [
+                    a sh:PropertyShape ;
+                    sh:path ids:defaultRepresentation ;
+                    sh:class ids:ImageRepresentation ;
+                ] ;
+.
+
+ids:PrefixDeclaration
+  a sh:PrefixDeclaration ;
+  sh:namespace "https://w3id.org/idsa/core/"^^xsd:anyURI ;
+  sh:prefix "ids" ;
+.
