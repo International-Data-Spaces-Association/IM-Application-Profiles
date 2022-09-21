@@ -1,0 +1,153 @@
+{
+  "@context": {
+    "ids": "https://w3id.org/idsa/core/",
+    "idsc": "https://w3id.org/idsa/code/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dct": "http://purl.org/dc/terms/",
+    "time": "http://www.w3.org/2006/time#",
+    "conn3": "https://aastat.gov.de/connector/conn3/",
+    "data3": "https://aastat.gov.de/connector/conn3/data3/",
+    "part1": "https://im.internationaldataspaces.org/participant/part1"
+  },
+  "@graph": [
+    {
+      "@id": "data3:",
+      "@type": "ids:TextResource",
+      "ids:title": {
+        "@value": "European highway statistics - traffic report",
+        "@language": "en"
+      },
+      "ids:description": {
+        "@value": "Detailed traffic analysis report based on European highway statistics data 2000 - 2017.",
+        "@language": "en"
+      },
+      "ids:keyword": [
+        "report",
+        "highway",
+        "statistics",
+        "Europe"
+      ],
+      "dct:temporal": {
+        "@type": "ids:Interval",
+        "time:hasBeginning": {
+          "@type": "time:Instant",
+          "time:inXSDDateTimeStamp": {
+            "@value": "2001-01-01T12:00:00.000+02:00",
+            "@type": "xsd:dateTimeStamp"
+          }
+        },
+        "time:hasEnd": {
+          "@type": "time:Instant",
+          "time:inXSDDateTimeStamp": {
+            "@value": "2017-12-31T12:00:00.000+02:00",
+            "@type": "xsd:dateTimeStamp"
+          }
+        }
+      },
+      "ids:language": {
+        "@id": "idsc:EN"
+      },
+      "ids:representation": [
+        {
+          "@type": "ids:TextRepresentation",
+          "ids:mediaType": {
+            "@id": "https://www.iana.org/assignments/media-types/application/pdf"
+          },
+          "ids:instance": {
+            "@id": "data3:report_pdf"
+          }
+        },
+        {
+          "@type": "ids:TextRepresentation",
+          "ids:mediaType": {
+            "@id": "https://www.iana.org/assignments/media-types/application/msword"
+          },
+          "ids:instance": {
+            "@id": "data3:report_doc"
+          }
+        }
+      ],
+      "ids:resourceEndpoint": [
+        {
+          "@type": "ids:ConnectorEndpoint",
+          "ids:endpointArtifact": {
+            "@id": "data3:report_pdf"
+          },
+          "ids:accessURL": {
+            "@id": "https://connector.aastat.gov.de/reports/Highway_traffic_statistics.pdf"
+          }
+        },
+        {
+          "@type": "ids:ConnectorEndpoint",
+          "ids:endpointArtifact": {
+            "@id": "data3:report_doc"
+          },
+          "ids:accessURL": {
+            "@id": "https://connector.aastat.gov.de/reports/Highway_traffic_statistics.doc"
+          }
+        }
+      ],
+      "ids:contractOffer": {
+        "@id": "data3:offer"
+      }
+    },
+    {
+      "@id": "data3:report_pdf",
+      "@type": "ids:Artifact",
+      "ids:byteSize": 1923497,
+      "ids:fileName": "Highway_traffic_statistics.pdf",
+      "ids:creationDate": {
+        "@value": "2018-06-18T12:00:00.000+02:00",
+        "@type": "xsd:dateTimeStamp"
+      }
+    },
+    {
+      "@id": "data3:report_doc",
+      "@type": "ids:Artifact",
+      "ids:byteSize": 28923491,
+      "ids:fileName": "Highway_traffic_statistics.doc",
+      "ids:creationDate": {
+        "@value": "2018-06-18T12:00:00.000+02:00",
+        "@type": "xsd:dateTimeStamp"
+      }
+    },
+    {
+      "@id": "data3:offer",
+      "@type": "ids:ContractOffer",
+      "ids:permission": {
+        "@type": "ids:Permission",
+        "ids:assigner": {
+          "@id": "part1:"
+        },
+        "ids:target": {
+          "@id": "data3:"
+        },
+        "odrl:action": {
+          "@id": "idsc:USE"
+        },
+        "ids:constraint": {
+          "@type": "ids:Constraint",
+          "odrl:leftOperand": {
+            "@id": "idsc:SECURITY_LEVEL"
+          },
+          "odrl:operator": {
+            "@id": "idsc:GTEQ"
+          },
+          "odrl:rightOperand": {
+            "@id": "idsc:TRUST_SECURITY_PROFILE"
+          }
+        }
+      }
+    },
+    {
+      "@id": "https://www.iana.org/assignments/media-types/application/pdf",
+      "@type": "ids:IANAMediaType"
+    },
+    {
+      "@id": "https://www.iana.org/assignments/media-types/application/msword",
+      "@type": "ids:IANAMediaType"
+    }
+  ]
+}
