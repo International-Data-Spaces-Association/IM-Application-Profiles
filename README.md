@@ -1,6 +1,8 @@
 # Application Profiles for the IDS Information Model
 
 We evaluated the state-of-the-art of the IDS InformationModel. More specifically, we looked at the models and the mappings to their validations (SHACL files).
+We provide a live-demo at https://ids-ap.fokus.fraunhofer.de/.
+
 We summarise the findings as follows:
 
 * [IDS-SHACL-SotA](https://github.com/International-Data-Spaces-Association/IM-Application-Profiles/tree/main/IDS-SHACL-SotA/IDS-SHACL-SotA.md), in which we include the mappings from each model to its corresponding SHACL file. Here we provide information about local and external restrictions. Local restrictions refer to those specifically defined in the IDS project. External are those included in the IDS project from existing definitions in other ontologies and vocabularies, such as *ODRL, TIME, SKOS*, etc.
